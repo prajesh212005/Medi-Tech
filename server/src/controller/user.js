@@ -47,3 +47,11 @@ export const login = AsyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, user });
 });
+
+export const getuser = AsyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id).select("-password");
+
+  if (!user) throw new ErrorHandler("user not found", 404);
+
+  res.status(200).json({ user });
+});
