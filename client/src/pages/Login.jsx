@@ -58,19 +58,22 @@ function Login() {
 
   return (
     <div>
-      <div className="h-screen max-md:p-4 relative bg-gradient-to-br from-blue-100 via-white to-blue-100 flex justify-center items-center overflow-hidden">
-        <div className="mx-auto w-full max-w-[410px] z-10 p-6 rounded-md bg-blue-100/50 border border-blue-600/20">
-          <div className="flex flex-col justify-center text-center gap-6">
+      <div className="h-screen max-sm:p-2 relative bg-gradient-to-br from-blue-100 via-white to-blue-100 flex justify-center items-center overflow-hidden">
+        <div className="mx-auto w-full max-w-[410px] z-10 p-4 md:p-6 rounded-md bg-blue-100/50 border border-blue-600/20">
+          <div className="flex flex-col justify-center text-center gap-2">
             <div className="flex flex-col gap-1 items-center">
-              <Logo className="text-2xl sm:text-3xl" />
-              <span className="text-blue-700 font-semibold text-sm">
-                Sign in to your Meditech Account
+              <Logo
+                className="text-2xl sm:text-3xl"
+                font="text-xl sm:text-2xl "
+              />
+              <span className="text-blue-700 font-semibold text-xs sm:text-sm ">
+                Sign in to your MediQueue Account
               </span>
             </div>
-            <div className="mt-2">
-              <div className="flex flex-col gap-4">
+            <div className="mt-3">
+              <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-1">
-                  <span className="text-blue-800 text-start font-semibold text-sm">
+                  <span className="text-blue-600 text-start font-semibold text-sm">
                     Email
                   </span>
                   <input
@@ -84,10 +87,10 @@ function Login() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between">
-                    <span className="text-blue-800 text-start font-semibold text-sm">
+                    <span className="text-blue-600 text-start font-semibold text-sm">
                       Password
                     </span>
-                    <Link className="text-blue-800 text-start hover:underline text-sm">
+                    <Link className="text-blue-600 text-start hover:underline sm:text-sm text-xs">
                       Forgot password
                     </Link>
                   </div>
@@ -102,7 +105,7 @@ function Login() {
                 </div>
               </div>
             </div>
-            <div className="mt-2 flex flex-col gap-3">
+            <div className="mt-4 flex flex-col gap-3">
               {!loading ? (
                 <button
                   onClick={handleSignin}

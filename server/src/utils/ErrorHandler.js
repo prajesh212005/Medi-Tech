@@ -36,8 +36,6 @@ const errorHandler = (err, req, res, next) => {
     err = new ErrorHandler(message, 400);
   }
 
-  console.log(err);
-
   res.status(err.statusCode).json({
     success: false,
     message: err.message,

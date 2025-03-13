@@ -14,6 +14,7 @@ import Protect from "./components/Protect";
 import { useUser } from "./context/userContext";
 import axios from "axios";
 import RedirectIfLoggedIn from "./components/RedirectLogin";
+import DashboardLog from "./layouts/Dashboard";
 
 const App = () => {
   const { loginUser, logoutUser } = useUser();
@@ -65,10 +66,16 @@ const App = () => {
           path="/dashboard"
           element={
             <Protect>
-              <Dashboard />
+              <DashboardLog />
             </Protect>
           }
-        />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="main" element={<Dashboard />} />
+          {/* Uncomment and update the settings route if needed */}
+          {/* <Route path="settings" element={<Settings />} /> */}
+        </Route>
+
         <Route path="/features" element={<Features />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/auth" element={<AuthPage />} />

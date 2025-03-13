@@ -34,7 +34,10 @@ function Header() {
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo Section */}
           <Link to="/">
-            <Logo className="text-2xl sm:text-3xl" />
+            <Logo
+              className="text-2xl sm:text-3xl"
+              font="text-xl sm:text-2xl "
+            />
           </Link>
 
           {/* Desktop Menu */}
