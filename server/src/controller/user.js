@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import { AsyncHandler } from "../utils/AsyncHandler.js";
 import { ErrorHandler } from "../utils/ErrorHandler.js";
 import { genrateToken } from "../utils/genrateToken.js";
-
+import Patient from "../models/patient.js";
 export const register = AsyncHandler(async (req, res) => {
   const { name, role, email, password } = req.body;
 
@@ -14,6 +14,10 @@ export const register = AsyncHandler(async (req, res) => {
 
   if (!user) throw new ErrorHandler("User not created", 400);
 
+  if (role === "patient" && user._id) {
+    const patient = await Patient.create({ user: user._id });
+    console.log(patient);
+  }
   const newuser = await User.findById(user._id).select("-password");
 
   res.status(201).json({
@@ -35,17 +39,7 @@ export const login = AsyncHandler(async (req, res) => {
 
   const token = genrateToken(user);
 
-  const tokenOptions = {
-    httpOnly: true,
-    expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-    maxAge: 1 * 24 * 60 * 60 * 1000,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production" ? true : false,
-  };
-
-  res.cookie("token", token, tokenOptions);
-
-  res.status(200).json({ success: true, user });
+  res.status(200).json({ success: true, user, token });
 });
 
 export const getuser = AsyncHandler(async (req, res) => {

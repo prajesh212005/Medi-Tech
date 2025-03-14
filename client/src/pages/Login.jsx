@@ -42,11 +42,15 @@ function Login() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/user/login",
+        `${import.meta.env.VITE_URL}/api/user/login`,
         { email: formData.email, password: formData.password },
         { withCredentials: true }
       );
       loginUser(response.data.user);
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+
       toast.success("User logged in successfully");
       navigate("/dashboard");
     } catch (error) {

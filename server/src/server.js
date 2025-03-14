@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
 import userRoutes from "./routes/user.js";
+import patientRoutes from "./routes/patient.js";
 import { errorHandler } from "./utils/ErrorHandler.js";
 dotenv.config();
 
@@ -32,6 +33,7 @@ connectDb();
 
 //routes
 app.use("/api/user", userRoutes);
+app.use("/api/patient", patientRoutes);
 
 app.listen(PORT, () => {
   console.log("Server is running on port 5000");

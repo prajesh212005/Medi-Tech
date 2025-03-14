@@ -5,16 +5,21 @@ import MediQueueLanding from "./pages/MediQueueLanding";
 import AboutUs from "./pages/AboutUs";
 import Features from "./pages/Features";
 import Contact from "./pages/Contact";
-import AuthPage from "./pages/AuthPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { Toaster } from "react-hot-toast";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/patient/Dashboard";
 import Protect from "./components/Protect";
 import { useUser } from "./context/userContext";
 import axios from "axios";
 import RedirectIfLoggedIn from "./components/RedirectLogin";
-import DashboardLog from "./layouts/Dashboard";
+import {
+  AppDashboard,
+  PatientDashboard,
+  ReceptionDashboard,
+} from "./layouts/Dashboard";
+import BookAppointment from "./pages/patient/BookAppointment";
+import Profile from "./pages/patient/Profile";
 
 const App = () => {
   const { loginUser, logoutUser } = useUser();
@@ -23,9 +28,17 @@ const App = () => {
     const fetch = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/user/me", {
-          withCredentials: true,
-        });
+        const token = localStorage.getItem("token");
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_URL}/api/user/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          }
+        );
         loginUser(response.data.user);
       } catch (error) {
         setLoading(false);
@@ -63,22 +76,42 @@ const App = () => {
         />
         <Route path="/about" element={<AboutUs />} />
         <Route
-          path="/dashboard"
+          path="/patient"
           element={
             <Protect>
-              <DashboardLog />
+              <PatientDashboard />
             </Protect>
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="main" element={<Dashboard />} />
+          <Route path="book-appointment" element={<BookAppointment />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+        <Route
+          path="/doctor"
+          element={
+            <Protect>
+              <AppDashboard />
+            </Protect>
+          }
+        >
+          <Route index element={<Dashboard />} />
+        </Route>
+        <Route
+          path="/receptionist"
+          element={
+            <Protect>
+              <ReceptionDashboard />
+            </Protect>
+          }
+        >
+          <Route index element={<Dashboard />} />
           {/* Uncomment and update the settings route if needed */}
           {/* <Route path="settings" element={<Settings />} /> */}
         </Route>
 
         <Route path="/features" element={<Features />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/auth" element={<AuthPage />} />
         <Route
           path="/login"
           element={

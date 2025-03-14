@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   Home,
   Users,
@@ -14,20 +15,93 @@ import {
   Clipboard,
   ChevronLeft,
   PanelsTopLeft,
+  UserPen,
 } from "lucide-react";
-import { Link, Outlet } from "react-router-dom";
 import Logo from "../components/Logo";
 
-function Dashboard() {
+// SidebarItem Component
+function SidebarItem({ icon, text, to, collapsed }) {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+  return (
+    <li>
+      <NavLink
+        to={to}
+        className={`flex items-center p-3 rounded-md transition-all duration-200
+          ${
+            isActive
+              ? "bg-blue-100 text-blue-600"
+              : "hover:bg-blue-400/10 text-blue-600"
+          }
+          ${collapsed ? "justify-center" : "justify-start"}
+        `}
+      >
+        <span className="flex items-center justify-center">{icon}</span>
+        {!collapsed && <span className="ml-3 text-sm font-medium">{text}</span>}
+        {isActive && !collapsed && (
+          <ChevronRight size={16} className="ml-auto text-blue-500" />
+        )}
+      </NavLink>
+    </li>
+  );
+}
+
+// Sidebar Component
+function Sidebar({ navItems, sidebarOpen, toggleSidebar, isMobile }) {
+  return (
+    <div
+      className={`fixed inset-y-0 left-0 z-30 bg-blue-50 border-r border-blue-700/20 shadow-sm transition-all duration-300
+        ${sidebarOpen ? "w-64" : "w-16"}
+        ${
+          isMobile
+            ? sidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full"
+            : "translate-x-0"
+        }
+      `}
+    >
+      {/* Sidebar Header */}
+      <div className="flex items-center justify-between p-4 py-3 ">
+        {sidebarOpen && (
+          <Logo className="text-2xl sm:text-3xl" font="text-xl sm:text-2xl" />
+        )}
+        <button
+          onClick={toggleSidebar}
+          className="p-2 rounded-md text-blue-500 cursor-pointer hover:bg-blue-600/10"
+        >
+          {sidebarOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Sidebar Navigation */}
+      <nav className="p-2 overflow-y-auto">
+        <ul className="space-y-2">
+          {navItems.map((item, index) => (
+            <SidebarItem
+              key={index}
+              icon={item.icon}
+              text={item.text}
+              to={item.to}
+              collapsed={!sidebarOpen}
+            />
+          ))}
+        </ul>
+      </nav>
+    </div>
+  );
+}
+
+// Main Dashboard Component
+function Dashboard({ navItems }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if the screen size is mobile on initial render and when window resizes
   useEffect(() => {
     const checkIfMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      setSidebarOpen(!mobile); // Open by default on desktop, closed on mobile
+      setSidebarOpen(!mobile);
     };
 
     checkIfMobile();
@@ -38,119 +112,19 @@ function Dashboard() {
     };
   }, []);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
-    <div className="flex h-screen bg-blue-50 overflow-hidden">
-      {isMobile && sidebarOpen && (
-        <div
-          className="fixed bg-white bg-opacity-30 z-20 transition-opacity duration-300"
-          onClick={toggleSidebar}
-        />
-      )}
-
-      <div
-        className={`
-          fixed inset-y-0 left-0 z-30 bg-blue-50  border-r border-blue-700/20 shadow-sm
-          transition-all duration-300 ease-in-out
-          ${sidebarOpen ? "w-64" : "w-16"}
-          ${
-            isMobile
-              ? sidebarOpen
-                ? "translate-x-0"
-                : "-translate-x-full"
-              : "translate-x-0"
-          }
-        `}
-      >
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-4 pb-3 gap-2 border-b text-white border-blue-700/10 bg-transparent">
-          {sidebarOpen && (
-            <div className="flex items-center">
-              <Logo
-                className="text-2xl sm:text-3xl"
-                font="text-xl sm:text-2xl"
-              />
-            </div>
-          )}
-
-          <button
-            onClick={toggleSidebar}
-            className={`p-2 rounded-md cursor-pointer transition-all duration-200 ${
-              isMobile
-                ? "text-gray-600 hover:bg-gray-200"
-                : sidebarOpen
-                ? "text-gray-700 hover:bg-gray-700/10"
-                : "text-gray-500 hover:bg-gray-100"
-            }`}
-          >
-            {sidebarOpen ? (
-              <ChevronLeft
-                size={20}
-                className={isMobile ? "text-blue-700" : "text-blue-700"}
-              />
-            ) : (
-              <Menu
-                size={20}
-                className={isMobile ? "text-blue-500" : "text-blue-500"}
-              />
-            )}
-          </button>
-        </div>
-
-        {/* Sidebar Navigation */}
-        <nav className="p-2 overflow-y-auto max-h-[calc(100vh-64px)]">
-          <ul className="space-y-2">
-            <SidebarItem
-              icon={<Home size={20} />}
-              text="Dashboard"
-              active={true}
-              collapsed={!sidebarOpen}
-            />
-            <SidebarItem
-              icon={<Calendar size={20} />}
-              text="Appointments"
-              collapsed={!sidebarOpen}
-            />
-            <SidebarItem
-              icon={<Users size={20} />}
-              text="Patients"
-              collapsed={!sidebarOpen}
-            />
-            <SidebarItem
-              icon={<Activity size={20} />}
-              text="Vital Signs"
-              collapsed={!sidebarOpen}
-            />
-            <SidebarItem
-              icon={<Clock size={20} />}
-              text="Wait Times"
-              collapsed={!sidebarOpen}
-            />
-            <SidebarItem
-              icon={<Clipboard size={20} />}
-              text="Records"
-              collapsed={!sidebarOpen}
-            />
-            <SidebarItem
-              icon={<FileText size={20} />}
-              text="Reports"
-              collapsed={!sidebarOpen}
-            />
-            <SidebarItem
-              icon={<Settings size={20} />}
-              text="Settings"
-              collapsed={!sidebarOpen}
-            />
-          </ul>
-        </nav>
-      </div>
+    <div className="flex h-screen bg-blue-50">
+      {/* Sidebar */}
+      <Sidebar
+        navItems={navItems}
+        sidebarOpen={sidebarOpen}
+        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
+      />
 
       {/* Main Content */}
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${
+        className={`flex-1 transition-all duration-300  overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent ${
           sidebarOpen && !isMobile ? "md:ml-64" : "md:ml-16"
         }`}
       >
@@ -160,7 +134,7 @@ function Dashboard() {
             <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
               {/* Sidebar Toggle (Visible on Mobile) */}
               <button
-                onClick={toggleSidebar}
+                onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="text-gray-500 hover:text-blue-600 md:hidden focus:outline-none"
               >
                 <PanelsTopLeft size={20} className="text-blue-600/40" />
@@ -199,8 +173,7 @@ function Dashboard() {
           </div>
         </header>
 
-        {/* Main Content Area */}
-        <main className="flex-1 overflow-auto p-2 sm:p-4">
+        <main className="flex ">
           <Outlet />
         </main>
       </div>
@@ -208,35 +181,81 @@ function Dashboard() {
   );
 }
 
-function SidebarItem({ icon, text, active = false, collapsed, onClick }) {
-  return (
-    <li>
-      <Link
-        onClick={onClick}
-        className={`flex items-center p-3 text-blue-600 rounded-md transition-all duration-200
-          ${active ? "bg-blue-100 " : " hover:bg-blue-400/10"}
-          ${collapsed ? "justify-center" : "justify-start"}
-        `}
-      >
-        {/* Icon */}
-        <span
-          className={`flex items-center justify-center ${
-            active ? "text-blue-500" : "text-blue-500"
-          }`}
-        >
-          {icon}
-        </span>
+// Role-based Dashboards
+function AppDashboard() {
+  const doctorNavItems = [
+    { icon: <Home size={20} />, text: "Dashboard", to: "/doctor" },
+    {
+      icon: <Calendar size={20} />,
+      text: "Appointments",
+      to: "/doctor/appointments",
+    },
+    { icon: <Users size={20} />, text: "Patients", to: "/doctor/patients" },
+    {
+      icon: <Activity size={20} />,
+      text: "Vital Signs",
+      to: "/doctor/vital-signs",
+    },
+    { icon: <Clock size={20} />, text: "Wait Times", to: "/doctor/wait-times" },
+    { icon: <Clipboard size={20} />, text: "Records", to: "/doctor/records" },
+    { icon: <FileText size={20} />, text: "Reports", to: "/doctor/reports" },
+    { icon: <Settings size={20} />, text: "Settings", to: "/doctor/settings" },
+  ];
 
-        {!collapsed && (
-          <span className="ml-3 text-sm font-medium truncate">{text}</span>
-        )}
-
-        {active && !collapsed && (
-          <ChevronRight size={16} className="ml-auto text-blue-500" />
-        )}
-      </Link>
-    </li>
-  );
+  return <Dashboard navItems={doctorNavItems} />;
 }
 
-export default Dashboard;
+function ReceptionDashboard() {
+  const receptionNavItems = [
+    { icon: <Home size={20} />, text: "Dashboard", to: "/reception" },
+    {
+      icon: <Users size={20} />,
+      text: "Register Patient",
+      to: "/reception/register-patient",
+    },
+    {
+      icon: <Clipboard size={20} />,
+      text: "Check Beds",
+      to: "/reception/check-beds",
+    },
+    {
+      icon: <Clock size={20} />,
+      text: "Manage Queue",
+      to: "/reception/manage-queue",
+    },
+    { icon: <FileText size={20} />, text: "Reports", to: "/reception/reports" },
+    {
+      icon: <Settings size={20} />,
+      text: "Settings",
+      to: "/reception/settings",
+    },
+  ];
+
+  return <Dashboard navItems={receptionNavItems} />;
+}
+
+function PatientDashboard() {
+  const patientNavItems = [
+    { icon: <Home size={20} />, text: "Dashboard", to: "/patient" },
+    {
+      icon: <Calendar size={20} />,
+      text: "Book Appointment",
+      to: "/patient/book-appointment",
+    },
+    {
+      icon: <Clock size={20} />,
+      text: "Check Queue Status",
+      to: "/patient/queue-status",
+    },
+    {
+      icon: <FileText size={20} />,
+      text: "Medical History",
+      to: "/patient/medical-history",
+    },
+    { icon: <UserPen size={20} />, text: "Profile", to: "/patient/profile" },
+  ];
+
+  return <Dashboard navItems={patientNavItems} />;
+}
+
+export { AppDashboard, ReceptionDashboard, PatientDashboard };
