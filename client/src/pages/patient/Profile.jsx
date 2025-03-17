@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import withAuthRedirect from "../../components/withAuthRedirect ";
 function Profile() {
   const [patient, setPatient] = useState({
     firstName: "",
@@ -216,13 +217,12 @@ function Profile() {
                 Contact Number
               </label>
               <input
-                type="tel"
+                type="number"
                 name="contactNumber"
                 value={patient.contactNumber}
                 onChange={onChange}
                 placeholder="Contact Number"
-                pattern="^[6-9]\d{9}$"
-                maxLength="10"
+                maxLength={10}
                 className="w-full px-3 py-2 outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -264,13 +264,12 @@ function Profile() {
                   className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
                 <input
-                  type="tel"
+                  type="number"
                   name="contactNumber"
                   value={patient.emergencyContact.contactNumber}
                   onChange={onEmergencyContactChange}
                   placeholder="Contact Number"
-                  pattern="^[6-9]\d{9}$"
-                  maxLength="10"
+                  maxLength={10}
                   className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               </div>
@@ -280,17 +279,19 @@ function Profile() {
             {!loading ? (
               <button
                 onClick={saveChanges}
-                className="w-full sm:w-auto px-6 py-2.5 text-sm sm:text-base font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all"
+                disabled={!hasChanges()}
+                className={`w-full sm:w-auto px-6 py-2.5 text-sm sm:text-base font-medium rounded-lg transition-all ${
+                  hasChanges()
+                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
               >
                 Save Changes
               </button>
             ) : (
-              <button
-                onClick={saveChanges}
-                className="w-full sm:w-auto flex gap-2 items-center cursor-pointer px-6 py-2.5 text-sm sm:text-base font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all"
-              >
+              <button className="w-full sm:w-auto flex gap-2 items-center px-6 py-2.5 text-sm sm:text-base font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all">
                 <div className="w-4 h-4 border-2 border-t-transparent border-white border-solid rounded-full animate-spin" />
-                <span className="text-sm font-[500]">Save Changes...</span>
+                <span className="text-sm font-[500]">Saving Changes...</span>
               </button>
             )}
           </div>

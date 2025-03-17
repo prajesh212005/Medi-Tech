@@ -114,6 +114,66 @@ export const updatePatientProfile = [
     .withMessage("Emergency contact number must be exactly 10 digits"),
 ];
 
+export const updateDoctorProfile = [
+  body("firstName")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage("First name must be between 2 and 50 characters"),
+
+  body("lastName")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage("Last name must be between 2 and 50 characters"),
+
+  body("specialization")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Specialization must be between 2 and 100 characters"),
+
+  body("qualification")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Qualification must be between 2 and 100 characters"),
+
+  body("experience")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Experience must be a non-negative integer"),
+
+  body("contactNumber")
+    .optional()
+    .trim()
+    .matches(/^\d{10}$/)
+    .withMessage("Contact number must be exactly 10 digits"),
+
+  body("availability.*.day")
+    .optional()
+    .isIn([
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday",
+    ])
+    .withMessage("Invalid day"),
+
+  body("availability.*.startTime")
+    .optional()
+    .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+    .withMessage("Invalid start time format"),
+
+  body("availability.*.endTime")
+    .optional()
+    .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+    .withMessage("Invalid end time format"),
+];
+
 export const processValidationResult = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

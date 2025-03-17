@@ -18,6 +18,7 @@ import {
   UserPen,
 } from "lucide-react";
 import Logo from "../components/Logo";
+import withAuthRedirect from "../components/withAuthRedirect ";
 
 // SidebarItem Component
 function SidebarItem({ icon, text, to, collapsed }) {
@@ -199,7 +200,7 @@ function AppDashboard() {
     { icon: <Clock size={20} />, text: "Wait Times", to: "/doctor/wait-times" },
     { icon: <Clipboard size={20} />, text: "Records", to: "/doctor/records" },
     { icon: <FileText size={20} />, text: "Reports", to: "/doctor/reports" },
-    { icon: <Settings size={20} />, text: "Settings", to: "/doctor/settings" },
+    { icon: <UserPen size={20} />, text: "Profile", to: "/doctor/profile" },
   ];
 
   return <Dashboard navItems={doctorNavItems} />;
@@ -258,4 +259,12 @@ function PatientDashboard() {
   return <Dashboard navItems={patientNavItems} />;
 }
 
-export { AppDashboard, ReceptionDashboard, PatientDashboard };
+const AppDashboardWithAuth = withAuthRedirect(AppDashboard);
+const ReceptionDashboardWithAuth = withAuthRedirect(ReceptionDashboard);
+const PatientDashboardWithAuth = withAuthRedirect(PatientDashboard);
+
+export {
+  AppDashboardWithAuth,
+  ReceptionDashboardWithAuth,
+  PatientDashboardWithAuth,
+};

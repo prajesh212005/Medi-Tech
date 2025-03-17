@@ -12,14 +12,15 @@ import Dashboard from "./pages/patient/Dashboard";
 import Protect from "./components/Protect";
 import { useUser } from "./context/userContext";
 import axios from "axios";
-import RedirectIfLoggedIn from "./components/RedirectLogin";
+
 import {
-  AppDashboard,
-  PatientDashboard,
-  ReceptionDashboard,
+  AppDashboardWithAuth,
+  PatientDashboardWithAuth,
+  ReceptionDashboardWithAuth,
 } from "./layouts/Dashboard";
 import BookAppointment from "./pages/patient/BookAppointment";
 import Profile from "./pages/patient/Profile";
+import DProfile from "./pages/doctor/Profile";
 
 const App = () => {
   const { loginUser, logoutUser } = useUser();
@@ -79,7 +80,7 @@ const App = () => {
           path="/patient"
           element={
             <Protect>
-              <PatientDashboard />
+              <PatientDashboardWithAuth />
             </Protect>
           }
         >
@@ -91,17 +92,18 @@ const App = () => {
           path="/doctor"
           element={
             <Protect>
-              <AppDashboard />
+              <AppDashboardWithAuth />
             </Protect>
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="profile" element={<DProfile />} />
         </Route>
         <Route
           path="/receptionist"
           element={
             <Protect>
-              <ReceptionDashboard />
+              <ReceptionDashboardWithAuth />
             </Protect>
           }
         >
@@ -112,22 +114,8 @@ const App = () => {
 
         <Route path="/features" element={<Features />} />
         <Route path="/contact" element={<Contact />} />
-        <Route
-          path="/login"
-          element={
-            <RedirectIfLoggedIn>
-              <Login />
-            </RedirectIfLoggedIn>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <RedirectIfLoggedIn>
-              <Signup />
-            </RedirectIfLoggedIn>
-          }
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );

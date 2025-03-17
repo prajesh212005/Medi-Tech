@@ -131,6 +131,9 @@ function Signup() {
                     <option value="receptionist" className="text-blue-600">
                       receptionist
                     </option>
+                    <option value="doctor" className="text-blue-600">
+                      doctor
+                    </option>
                   </select>
                 </div>
               </div>

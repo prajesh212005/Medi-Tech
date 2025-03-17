@@ -3,6 +3,7 @@ import { AsyncHandler } from "../utils/AsyncHandler.js";
 import { ErrorHandler } from "../utils/ErrorHandler.js";
 import { genrateToken } from "../utils/genrateToken.js";
 import Patient from "../models/patient.js";
+import Doctor from "../models/doctor.js";
 export const register = AsyncHandler(async (req, res) => {
   const { name, role, email, password } = req.body;
 
@@ -16,7 +17,9 @@ export const register = AsyncHandler(async (req, res) => {
 
   if (role === "patient" && user._id) {
     const patient = await Patient.create({ user: user._id });
-    console.log(patient);
+  }
+  if (role === "doctor" && user._id) {
+    const doctor = await Doctor.create({ user: user._id });
   }
   const newuser = await User.findById(user._id).select("-password");
 

@@ -4,7 +4,6 @@ import { ErrorHandler } from "../utils/ErrorHandler.js";
 import jwt from "jsonwebtoken";
 export const AuthCheck = AsyncHandler(async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new ErrorHandler("Authentication token is missing or invalid.", 403);
   }
