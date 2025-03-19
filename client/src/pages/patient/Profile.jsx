@@ -143,16 +143,16 @@ function Profile() {
   };
   return (
     <div className="h-full w-full px-2 py-6 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 lg:space-y-6">
-        <div className="text-center sm:text-left">
-          <h1 className="text-xl sm:text-2xl font-bold text-blue-600">
-            Welcome to your profile
-          </h1>
-          <p className="mt-1 text-sm sm:text-base text-blue-500">
-            Here you can view and edit your profile
-          </p>
-        </div>
-        <div className="border space-y-6 border-blue-400/70 lg:p-8 md:p-6 p-4 rounded-lg">
+      <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 bg-white lg:space-y-6">
+        <div className="border space-y-6 border-blue-400/70 lg:px-8 md:p-6 p-4 rounded-lg">
+          <div className="text-center sm:text-left">
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-500 to-teal-400 text-transparent bg-clip-text">
+              Welcome to your profile
+            </h1>
+            <p className="mt-1 text-sm sm:text-base text-blue-500">
+              Here you can view and edit your profile
+            </p>
+          </div>
           <div>
             <label className="block text-sm font-medium text-blue-600 mb-1">
               First Name
@@ -164,7 +164,7 @@ function Profile() {
               value={patient.firstName}
               onChange={onChange}
               placeholder="firstname"
-              className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
           </div>
           <div>
@@ -178,7 +178,7 @@ function Profile() {
               value={patient.lastName}
               onChange={onChange}
               placeholder="lastname"
-              className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
           </div>
           <div>
@@ -202,7 +202,7 @@ function Profile() {
                 name="gender"
                 value={patient.gender}
                 onChange={onChange}
-                className="w-full px-3 py-2 outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               >
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
@@ -223,7 +223,7 @@ function Profile() {
                 onChange={onChange}
                 placeholder="Contact Number"
                 maxLength={10}
-                className="w-full px-3 py-2 outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -238,7 +238,7 @@ function Profile() {
               value={patient.address}
               onChange={onChange}
               placeholder="Address"
-              className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
           </div>
           <div>
@@ -252,7 +252,7 @@ function Profile() {
                 value={patient.emergencyContact.name}
                 onChange={onEmergencyContactChange}
                 placeholder="Name"
-                className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               />
               <div className="flex flex-row max-md:flex-col gap-3">
                 <input
@@ -261,7 +261,7 @@ function Profile() {
                   value={patient.emergencyContact.relationship}
                   onChange={onEmergencyContactChange}
                   placeholder="Relationship"
-                  className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
                 <input
                   type="number"
@@ -270,7 +270,7 @@ function Profile() {
                   onChange={onEmergencyContactChange}
                   placeholder="Contact Number"
                   maxLength={10}
-                  className="w-full px-3 py-2 text-sm sm:text-base outline-none bg-blue-500/5 border border-blue-500/20 rounded-md text-blue-600 placeholder-blue-500 focus:ring-1 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-3 py-2 outline-none bg-blue-50 border border-blue-200 rounded-md text-blue-800 placeholder-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -280,11 +280,7 @@ function Profile() {
               <button
                 onClick={saveChanges}
                 disabled={!hasChanges()}
-                className={`w-full sm:w-auto px-6 py-2.5 text-sm sm:text-base font-medium rounded-lg transition-all ${
-                  hasChanges()
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                className={`w-full sm:w-auto px-6 py-2.5 text-sm sm:text-base  bg-gradient-to-r from-blue-500 to-teal-400 text-white hover:from-blue-500 hover:to-teal-500  font-medium rounded-lg transition-all`}
               >
                 Save Changes
               </button>

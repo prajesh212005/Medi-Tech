@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/userContext";
 
-const withAuthRedirect = (WrappedComponent) => {
+const WithAuthRedirect = (WrappedComponent) => {
   return (props) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -11,8 +11,8 @@ const withAuthRedirect = (WrappedComponent) => {
     useEffect(() => {
       const currentPath = location.pathname;
 
-      if (user === null) {
-        // If not authenticated and not already on the signin page, redirect to signin
+      if (!user) {
+        // If not authenticated and not already on the login page, redirect to login
         if (currentPath !== "/login") {
           navigate("/login", { replace: true });
         }
@@ -32,10 +32,10 @@ const withAuthRedirect = (WrappedComponent) => {
           navigate("/receptionist", { replace: true });
         }
       }
-    }, [user.role, navigate, location]);
+    }, [user, navigate, location]); // Fixed dependency array
 
     return <WrappedComponent {...props} />;
   };
 };
 
-export default withAuthRedirect;
+export default WithAuthRedirect;

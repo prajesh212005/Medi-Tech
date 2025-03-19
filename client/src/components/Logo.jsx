@@ -1,15 +1,11 @@
 import React from "react";
-import { FaHeartbeat } from "react-icons/fa";
 
-function Logo({ className, font }) {
-  return (
-    <div className="flex items-center">
-      <FaHeartbeat
-        className={`${className} text-blue-600 mr-1.5  sm:mr-2  animate-pulse`}
-      />
-      <span className={`${font} font-[800] text-blue-700 `}>MediQueue</span>
-    </div>
-  );
-}
+const Logo = ({ className, font }) => (
+  <div className={`flex items-center ${className}`}>
+    <span className={`font-bold text-blue-600 ${font}`}>
+      Medi<span className="text-teal-500">Tech</span>
+    </span>
+  </div>
+);
 
 export default Logo;
