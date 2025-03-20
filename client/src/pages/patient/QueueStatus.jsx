@@ -79,7 +79,7 @@ export default function QueueStatus() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h2 className="text-xl font-bold text-cyan-700">My Appointments</h2>
+          <h2 className="text-2xl font-bold text-cyan-600">My Appointments</h2>
           <div className="flex bg-white rounded-lg p-1 shadow-sm">
             {["all", "today", "upcoming"].map((filterType) => (
               <button

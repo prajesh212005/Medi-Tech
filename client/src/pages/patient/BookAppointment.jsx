@@ -172,22 +172,24 @@ function BookAppointment() {
             </div>
 
             {/* Submit Button */}
-            {!loading ? (
-              <button
-                type="submit"
-                className="bg-blue-600 py-2.5 gap-2 rounded-md flex items-center text-white justify-center w-full text-center"
-              >
-                <span className="font-semibold">Book Apponiment</span>
-              </button>
-            ) : (
-              <button
-                disabled={!loading}
-                className="bg-blue-600 py-2 gap-2 rounded-md flex items-center text-white justify-center w-full text-center"
-              >
-                <div className="w-4 h-4 border-2 border-t-transparent border-white border-solid rounded-full animate-spin" />
-                <span className="text-sm font-[500]">Booking...</span>
-              </button>
-            )}
+            <div className="flex justify-end">
+              {!loading ? (
+                <button
+                  type="submit"
+                  className={`w-full sm:w-auto px-6 py-2.5 text-sm sm:text-base  bg-gradient-to-r from-blue-500 to-teal-400 text-white hover:from-blue-500 hover:to-teal-500  font-medium rounded-lg transition-all`}
+                >
+                  <span className="font-semibold">Book Apponiment</span>
+                </button>
+              ) : (
+                <button
+                  disabled={!loading}
+                  className="bg-blue-600 py-2 gap-2 rounded-md flex items-center text-white justify-center w-full text-center"
+                >
+                  <div className="w-4 h-4 border-2 border-t-transparent border-white border-solid rounded-full animate-spin" />
+                  <span className="text-sm font-[500]">Booking...</span>
+                </button>
+              )}
+            </div>
           </form>
         </div>
       </div>
