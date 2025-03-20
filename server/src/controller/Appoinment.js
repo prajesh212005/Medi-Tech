@@ -347,13 +347,14 @@ export const getAllAppoinmentOfDoctor = AsyncHandler(async (req, res) => {
 });
 
 export const getPatientAppointments = AsyncHandler(async (req, res) => {
-  const patientId = req.user._id;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  const patient = await Patient.findOne({ user: req.user._id });
+  if (!patient) throw new ErrorHandler("Patient not found", 404);
   // Get all upcoming or today's appointments
   const appointments = await Appointment.find({
-    patient: patientId,
+    patient: patient._id,
     date: { $gte: today },
     status: { $in: ["scheduled", "in-progress"] },
   })
