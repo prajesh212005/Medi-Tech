@@ -21,6 +21,9 @@ import {
 import BookAppointment from "./pages/patient/BookAppointment";
 import Profile from "./pages/patient/Profile";
 import DProfile from "./pages/doctor/Profile";
+import QueueStatus from "./pages/patient/QueueStatus";
+import MedicalHistory from "./pages/patient/MedicalHistory";
+import QueuePage from "./pages/patient/QueuePage";
 
 const App = () => {
   const { loginUser, logoutUser } = useUser();
@@ -65,58 +68,63 @@ const App = () => {
   return (
     <Router>
       <Toaster />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Header />
-              <MediQueueLanding />
-            </>
-          }
-        />
-        <Route path="/about" element={<AboutUs />} />
-        <Route
-          path="/patient"
-          element={
-            <Protect>
-              <PatientDashboardWithAuth />
-            </Protect>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="book-appointment" element={<BookAppointment />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
-        <Route
-          path="/doctor"
-          element={
-            <Protect>
-              <AppDashboardWithAuth />
-            </Protect>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="profile" element={<DProfile />} />
-        </Route>
-        <Route
-          path="/receptionist"
-          element={
-            <Protect>
-              <ReceptionDashboardWithAuth />
-            </Protect>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          {/* Uncomment and update the settings route if needed */}
-          {/* <Route path="settings" element={<Settings />} /> */}
-        </Route>
+      <div className="">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Header />
+                <MediQueueLanding />
+              </>
+            }
+          />
+          <Route path="/about" element={<AboutUs />} />
+          <Route
+            path="/patient"
+            element={
+              <Protect>
+                <PatientDashboardWithAuth />
+              </Protect>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="book-appointment" element={<BookAppointment />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="queue-status" element={<QueueStatus />} />
+            <Route path="queue-status/:id" element={<QueuePage />} />
+            <Route path="medical-history" element={<MedicalHistory />} />
+          </Route>
+          <Route
+            path="/doctor"
+            element={
+              <Protect>
+                <AppDashboardWithAuth />
+              </Protect>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="profile" element={<DProfile />} />
+          </Route>
+          <Route
+            path="/receptionist"
+            element={
+              <Protect>
+                <ReceptionDashboardWithAuth />
+              </Protect>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            {/* Uncomment and update the settings route if needed */}
+            {/* <Route path="settings" element={<Settings />} /> */}
+          </Route>
 
-        <Route path="/features" element={<Features />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+          <Route path="/features" element={<Features />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </div>
     </Router>
   );
 };
