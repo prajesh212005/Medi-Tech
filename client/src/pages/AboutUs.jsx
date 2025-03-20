@@ -1,63 +1,125 @@
-import React from 'react';
-import { Briefcase, Users, Target, CheckCircle } from 'lucide-react';
+import React from "react";
+import {
+  Briefcase,
+  Users,
+  Target,
+  CheckCircle,
+  Heart,
+  Award,
+  Clock,
+  Shield,
+} from "lucide-react";
 
 const AboutUs = () => {
+  const stats = [
+    { number: "10+", text: "Years Experience" },
+    { number: "50+", text: "Healthcare Partners" },
+    { number: "1000+", text: "Patients Served" },
+    { number: "24/7", text: "Support Available" },
+  ];
+
+  const values = [
+    {
+      icon: <Heart className="w-8 h-8 text-blue-600" />,
+      title: "Patient-Centric",
+      description: "Putting patients first in everything we do",
+    },
+    {
+      icon: <Shield className="w-8 h-8 text-blue-600" />,
+      title: "Quality Care",
+      description: "Maintaining highest standards in healthcare delivery",
+    },
+    {
+      icon: <Clock className="w-8 h-8 text-blue-600" />,
+      title: "Efficiency",
+      description: "Optimizing healthcare processes for better outcomes",
+    },
+    {
+      icon: <Award className="w-8 h-8 text-blue-600" />,
+      title: "Excellence",
+      description: "Striving for excellence in healthcare management",
+    },
+  ];
+
   return (
-    <div className="container mx-auto px-6 py-16">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-5xl font-bold text-gray-800">
-          About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Us</span>
-        </h1>
-        <p className="text-lg text-gray-600 mt-4 max-w-2xl mx-auto">
-          We are dedicated to transforming hospital management with cutting-edge technology, 
-          optimizing workflows for better patient care.
-        </p>
-      </div>
-
-      {/* Mission & Vision Section */}
-      <div className="mt-16 grid md:grid-cols-2 gap-12 items-center">
-        <div className="p-6 bg-white shadow-lg rounded-xl border-l-4 border-blue-500 transition hover:scale-105 hover:shadow-2xl">
-          <h2 className="text-2xl font-semibold text-blue-600 flex items-center">
-            <Target className="mr-2 text-blue-400" /> Our Mission
-          </h2>
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            To revolutionize healthcare efficiency by providing hospitals with AI-powered 
-            solutions for better patient flow management.
-          </p>
-        </div>
-        <div className="p-6 bg-white shadow-lg rounded-xl border-l-4 border-purple-500 transition hover:scale-105 hover:shadow-2xl">
-          <h2 className="text-2xl font-semibold text-purple-600 flex items-center">
-            <CheckCircle className="mr-2 text-purple-400" /> Our Vision
-          </h2>
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            A world where every hospital operates seamlessly, ensuring faster care and 
-            enhanced patient experiences.
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-b from-blue-600 to-blue-800 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-32">
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
+            About MediTech
+          </h1>
+          <p className="text-xl text-center text-blue-100 max-w-3xl mx-auto">
+            Revolutionizing healthcare management through innovative technology
+            solutions
           </p>
         </div>
       </div>
 
-      {/* Team Section */}
-      <div className="mt-16 text-center">
-        <h2 className="text-4xl font-semibold text-gray-800">
-          Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Our Team</span>
-        </h2>
-        <p className="text-lg text-gray-600 mt-4">Experts dedicated to healthcare transformation</p>
-        
-        <div className="grid md:grid-cols-3 gap-8 mt-8">
-          {["Alice Doe", "Bob Smith", "Charlie Johnson"].map((name, index) => (
-            <div 
-              key={index} 
-              className="bg-white/70 backdrop-blur-md shadow-lg rounded-lg p-6 text-center border border-gray-200 
-                         hover:shadow-2xl transition-all hover:scale-105"
-            >
-              <div className="w-16 h-16 mx-auto bg-blue-100 flex items-center justify-center rounded-full">
-                <Users className="text-blue-600 w-10 h-10" />
-              </div>
-              <h3 className="text-xl font-semibold mt-4 text-gray-800">{name}</h3>
-              <p className="text-gray-500">Healthcare Tech Specialist</p>
+      {/* Stats Section */}
+
+      {/* Mission Section */}
+      <div className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Our Mission
+              </h2>
+              <p className="text-gray-600 mb-6">
+                At MediTech, we're committed to transforming healthcare
+                management through innovative technology solutions. Our mission
+                is to streamline healthcare operations, reduce waiting times,
+                and improve patient experiences.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Efficient queue management system",
+                  "Real-time bed tracking solutions",
+                  "Smart scheduling and resource allocation",
+                ].map((item, index) => (
+                  <li key={index} className="flex items-center space-x-3">
+                    <CheckCircle className="w-5 h-5 text-green-500" />
+                    <span className="text-gray-600">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ))}
+            <div className="relative">
+              <img src="/p-5.jpg" alt="Healthcare Mission" className="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Values Section */}
+      <div className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Our Core Values
+          </h2>
+          <div className="grid md:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-md">
+                <div className="mb-4">{value.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {value.title}
+                </h3>
+                <p className="text-gray-600">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Contact CTA Section */}
+      <div className="bg-blue-600 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
+            Join hundreds of healthcare facilities already using MediTech to
+            improve their operations
+          </p>
         </div>
       </div>
     </div>

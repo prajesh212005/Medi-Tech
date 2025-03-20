@@ -62,7 +62,17 @@ function Header() {
               Contact
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link to={user ? `${user.role}` : "/login"}>
+            <Link
+              to={
+                user
+                  ? `${
+                      user.role === "receptionist"
+                        ? "/reception"
+                        : `${user.role}`
+                    }`
+                  : "/login"
+              }
+            >
               <button className="bg-gradient-to-r flex items-center gap-2 from-blue-600 to-blue-700 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold hover:from-blue-700 hover:to-blue-800 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg">
                 Get Started <MoveRight size={20} />
               </button>
@@ -118,9 +128,19 @@ function Header() {
               >
                 Contact
               </Link>
-              <Link to="/signup" onClick={toggleMenu}>
-                <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-full font-semibold hover:from-blue-700 hover:to-blue-800 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg">
-                  Sign Up
+              <Link
+                to={
+                  user
+                    ? `${
+                        user.role === "receptionist"
+                          ? "/reception"
+                          : `${user.role}`
+                      }`
+                    : "/login"
+                }
+              >
+                <button className="bg-gradient-to-r from-blue-600 flex gap-2 items-center to-blue-700 text-white px-6 py-2 rounded-full font-semibold hover:from-blue-700 hover:to-blue-800 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg">
+                  Get Started <MoveRight size={20} />
                 </button>
               </Link>
             </div>

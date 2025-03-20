@@ -51,7 +51,7 @@ function QueuePage() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen p-6">
+    <div className="bg-gray-50 min-h-screen ">
       {/* Header with back button */}
       <div className="mb-6 flex items-center">
         <button
@@ -81,7 +81,7 @@ function QueuePage() {
         <div className="flex items-center mb-4">
           <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mr-4">
             <span className="text-2xl font-bold text-blue-600">
-              {appointment.doctor.name.split(" ")[1][0]}
+              {appointment.doctor.name.split(" ")[1][0].toUpperCase()}
             </span>
           </div>
           <div>

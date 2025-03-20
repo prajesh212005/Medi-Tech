@@ -6,11 +6,13 @@ import {
   FaCalendarAlt,
   FaUserCircle,
   FaCogs,
+  FaBed,
 } from "react-icons/fa";
-import Header from "../components/Header";
 import { motion } from "framer-motion";
-
+import { Link } from "react-router-dom";
+import { useUser } from "../context/userContext";
 function MetiTechLanding() {
+  const { user } = useUser();
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -30,7 +32,7 @@ function MetiTechLanding() {
       role: "Chief of Cardiology",
       quote:
         "The patient monitoring system has revolutionized how we deliver care in the ICU. Real-time alerts have helped us intervene faster and improve outcomes.",
-      organization: "Metro Hospital",
+
       avatar: "https://via.placeholder.com/40",
     },
     {
@@ -38,7 +40,6 @@ function MetiTechLanding() {
       role: "Healthcare IT Director",
       quote:
         "Implementation was seamless, and the training provided was exceptional. Our staff adapted quickly, and we've seen a 30% improvement in workflow efficiency.",
-      organization: "Regional Medical Center",
       avatar: "https://via.placeholder.com/40",
     },
     {
@@ -46,7 +47,6 @@ function MetiTechLanding() {
       role: "Neurologist",
       quote:
         "The telemedicine platform has allowed us to extend our reach to rural communities that previously had limited access to specialist care.",
-      organization: "University Medical Center",
       avatar: "https://via.placeholder.com/40",
     },
   ];
@@ -70,9 +70,21 @@ function MetiTechLanding() {
                 improve patient outcomes through innovative technology.
               </p>
               <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 md:space-x-4">
-                <button className="bg-blue-600 text-white px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-3 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md w-full sm:w-auto">
-                  Get Started →
-                </button>
+                <Link
+                  to={
+                    user
+                      ? `${
+                          user.role === "receptionist"
+                            ? "/reception"
+                            : `${user.role}`
+                        }`
+                      : "/login"
+                  }
+                >
+                  <button className="bg-blue-600 text-white px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-3 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md w-full sm:w-auto">
+                    Get Started →
+                  </button>
+                </Link>
                 <button className="border-2 border-blue-600 text-blue-600 px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-3 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 w-full sm:w-auto">
                   Learn More
                 </button>
@@ -84,7 +96,7 @@ function MetiTechLanding() {
             >
               <div className="rounded-2xl h-[200px] sm:h-[300px] md:h-[400px] w-full flex items-center justify-center">
                 <img
-                  src="/tech-dashboard.png"
+                  src="/p-3.png"
                   alt="Tech Dashboard"
                   className="transition-all duration-500 w-full h-auto"
                 />
@@ -118,12 +130,13 @@ function MetiTechLanding() {
               variants={fadeIn}
               className="bg-blue-500/10 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-center"
             >
-              <FaDatabase className="text-blue-600 text-4xl sm:text-5xl mx-auto mb-4" />
+              <FaBed className="text-blue-600 text-4xl sm:text-5xl mx-auto mb-4" />
               <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-800">
-                Data Analytics
+                Real-time Bed Tracking
               </h3>
               <p className="text-gray-600 text-sm sm:text-base">
-                Harness the power of data to make informed decisions.
+                Monitor bed availability across departments with live updates
+                and status changes.
               </p>
             </motion.div>
             {/* Feature Card 2 */}
@@ -181,11 +194,7 @@ function MetiTechLanding() {
               </button>
             </motion.div>
             <motion.div variants={fadeIn} className="relative">
-              <img
-                src="/tech-about.png"
-                alt="Tech About"
-                className="w-full h-auto"
-              />
+              <img src="/p-4.png" alt="Tech About" className="w-full h-auto" />
             </motion.div>
           </motion.div>
         </div>
@@ -231,9 +240,7 @@ function MetiTechLanding() {
                     <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
                       {testimonial.name}
                     </h3>
-                    <p className="text-gray-600 text-xs">
-                      {testimonial.role}, {testimonial.organization}
-                    </p>
+                    <p className="text-gray-600 text-xs">{testimonial.role}</p>
                   </div>
                 </div>
               </motion.div>

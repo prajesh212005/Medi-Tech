@@ -115,7 +115,7 @@ export default function QueueStatus() {
                 className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-hidden"
               >
                 {/* Compact Card Header */}
-                <div className="flex items-center p-3 bg-gradient-to-r from-blue-50 to-cyan-50 border-b">
+                <div className="flex items-center p-3 bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-700/20 border-b">
                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3 border border-blue-100">
                     <span className="text-blue-600 text-sm font-semibold">
                       {appointment.doctor.name.split(" ")[0][0]}
@@ -196,7 +196,7 @@ export default function QueueStatus() {
                   <div className="flex items-center justify-between pt-2">
                     <button
                       onClick={() => handleViewQueue(appointment._id)}
-                      className="ml-auto text-sm bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-3 py-1.5 rounded-md hover:from-blue-600 hover:to-cyan-600 transition-all duration-300"
+                      className="ml-auto text-sm bg-gradient-to-r  from-blue-500 to-cyan-500 text-white py-2.5 px-4 rounded-md hover:from-blue-600 hover:to-cyan-600 transition-all duration-300"
                     >
                       View Queue
                     </button>
