@@ -24,7 +24,8 @@ import DProfile from "./pages/doctor/Profile";
 import QueueStatus from "./pages/patient/QueueStatus";
 import MedicalHistory from "./pages/patient/MedicalHistory";
 import QueuePage from "./pages/patient/QueuePage";
-
+import DAppoinmnent from "./pages/doctor/Appoinment";
+import DDashboard from "./pages/doctor/Dashboard";
 const App = () => {
   const { loginUser, logoutUser } = useUser();
   const [loading, setLoading] = useState(true);
@@ -88,8 +89,8 @@ const App = () => {
               </Protect>
             }
           >
-            <Route index element={<Dashboard />} />
-            <Route path="book-appointment" element={<BookAppointment />} />
+            {/* <Route index element={<Dashboard />} /> */}
+            <Route index element={<BookAppointment />} />
             <Route path="profile" element={<Profile />} />
             <Route path="queue-status" element={<QueueStatus />} />
             <Route path="queue-status/:id" element={<QueuePage />} />
@@ -103,8 +104,9 @@ const App = () => {
               </Protect>
             }
           >
-            <Route index element={<Dashboard />} />
+            <Route index element={<DDashboard />} />
             <Route path="profile" element={<DProfile />} />
+            <Route path="appointments" element={<DAppoinmnent />} />
           </Route>
           <Route
             path="/receptionist"

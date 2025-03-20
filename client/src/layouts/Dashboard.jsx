@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import Logo from "../components/Logo";
 import WithAuthRedirect from "../components/withAuthRedirect ";
+import { useUser } from "../context/userContext";
 
 // SidebarItem Component
 function SidebarItem({ icon, text, to, collapsed }) {
@@ -126,6 +127,7 @@ const StatsCard = ({ icon, title, value, trend, color }) => (
 
 // Dashboard Component
 function Dashboard({ navItems }) {
+  const { user } = useUser();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [showDemoContent, setShowDemoContent] = useState(true);
@@ -191,23 +193,27 @@ function Dashboard({ navItems }) {
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
-              {/* Notifications Bell */}
-              <button className="p-2 rounded-full hover:bg-gray-100 relative">
-                <Bell size={20} className="text-gray-600" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-
-              {/* Profile Section */}
-              <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3">
+              <div className="hidden md:block">
+                <p className="text-sm text-gray-600">
+                  Hello,{" "}
+                  <span className="font-medium text-gray-900 truncate w-2">
+                    {user.name.split(" ")[0]}
+                  </span>
+                </p>
+              </div>
+              <div className="relative group">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center text-white font-medium">
-                  MD
+                  {user.name.split(" ")[0][0].toUpperCase()}
                 </div>
-                <div className="hidden md:block">
-                  <h4 className="text-sm font-medium text-gray-800">
-                    Dr. Morgan Davis
-                  </h4>
-                  <p className="text-xs text-gray-500">Cardiologist</p>
+                {/* Tooltip on hover */}
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 hidden group-hover:block">
+                  <div className="px-4 py-2 border-b border-gray-100">
+                    <p className="text-sm font-medium text-gray-800">
+                      {user.name}
+                    </p>
+                    <p className="text-xs text-gray-500">{user.role}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -231,11 +237,11 @@ function AppDashboard() {
       text: "Appointments",
       to: "/doctor/appointments",
     },
-    { icon: <Users size={20} />, text: "Patients", to: "/doctor/patients" },
+    // { icon: <Users size={20} />, text: "Patients", to: "/doctor/patients" },
 
-    { icon: <Clock size={20} />, text: "Wait Times", to: "/doctor/wait-times" },
-    { icon: <Clipboard size={20} />, text: "Records", to: "/doctor/records" },
-    { icon: <FileText size={20} />, text: "Reports", to: "/doctor/reports" },
+    // { icon: <Clock size={20} />, text: "Wait Times", to: "/doctor/wait-times" },
+    // { icon: <Clipboard size={20} />, text: "Records", to: "/doctor/records" },
+    // { icon: <FileText size={20} />, text: "Reports", to: "/doctor/reports" },
     { icon: <UserPen size={20} />, text: "Profile", to: "/doctor/profile" },
   ];
 
@@ -278,11 +284,11 @@ function ReceptionDashboard() {
 
 function PatientDashboard() {
   const patientNavItems = [
-    { icon: <Home size={20} />, text: "Dashboard", to: "/patient" },
+    // { icon: <Home size={20} />, text: "Dashboard", to: "/patient" },
     {
       icon: <Calendar size={20} />,
       text: "Book Appointment",
-      to: "/patient/book-appointment",
+      to: "/patient",
     },
     {
       icon: <Clock size={20} />,
