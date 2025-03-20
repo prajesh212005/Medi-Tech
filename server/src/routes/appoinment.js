@@ -48,6 +48,12 @@ router.get(
   AuthCheck,
   appoinmentController.getMedicalHistory
 );
+
+router.get(
+  "/get-all-appoinment-doctor/:doctorId",
+  AuthCheck,
+  appoinmentController.getAllAppoinmentsDoctor
+);
 // router.put(
 //   "/:appointmentId",
 //   AuthCheck,

@@ -58,9 +58,14 @@ export const createAppoinment = AsyncHandler(async (req, res) => {
     estimatedEndTime.getMinutes() + doctor.consultationDuration
   );
 
+  const patient = await Patient.findOne({ user: req.user._id });
+
+  if (!patient) {
+    throw new ErrorHandler("Patient not found", 404);
+  }
   // Create appointment (directly scheduled)
   const appointment = await Appointment.create({
-    patient: req.user._id,
+    patient: patient._id,
     doctor: doctorId,
     department,
     date: new Date(date),
@@ -97,11 +102,6 @@ export const createAppoinment = AsyncHandler(async (req, res) => {
   // Update appointment with queue number
   appointment.queueNumber = queueDetails.tokenNumber;
   await appointment.save();
-
-  const patient = await Patient.findOne({ user: req.user._id });
-  if (!patient) {
-    throw new ErrorHandler("Patient not found", 404);
-  }
 
   // Then update consultation history
   await Patient.findByIdAndUpdate(
@@ -715,5 +715,166 @@ export const getMedicalHistory = AsyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     records,
+  });
+});
+
+export const getAllAppoinmentsDoctor = AsyncHandler(async (req, res) => {
+  const { doctorId } = req.params;
+  const { date } = req.query;
+
+  // Set default date to today if not provided
+  const requestedDate = date ? new Date(date) : new Date();
+  const startOfDay = new Date(requestedDate);
+  const endOfDay = new Date(requestedDate);
+
+  startOfDay.setHours(0, 0, 0, 0);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  // Get appointments with proper population
+  const appointments = await Appointment.find({
+    doctor: doctorId,
+    date: {
+      $gte: startOfDay,
+      $lt: endOfDay,
+    },
+  })
+    .populate([
+      {
+        path: "patient",
+        populate: {
+          path: "user",
+          model: "User",
+          select: "name email",
+        },
+      },
+      {
+        path: "doctor",
+        select: "firstName lastName specialization consultationDuration",
+      },
+    ])
+    .sort({ estimatedStartTime: 1 })
+    .lean();
+
+  // Get queue information for the day
+  const queue = await Queue.findOne({
+    doctor: doctorId,
+    date: {
+      $gte: startOfDay,
+      $lt: endOfDay,
+    },
+  });
+
+  // Process appointments with improved error handling and data validation
+  const processedAppointments = appointments.map((apt) => {
+    const queuePatient = queue?.patients.find(
+      (p) => p.appointment.toString() === apt._id.toString()
+    );
+
+    // Validate and extract patient data
+    const baseAppointment = {
+      _id: apt._id,
+      patient: {
+        name: apt.patient?.user?.name || "Unknown Patient",
+        email: apt.patient?.user?.email || "No email provided",
+        patientId: apt.patient?._id,
+        userId: apt.patient?.user?._id,
+      },
+      doctor: {
+        name: `Dr. ${apt.doctor?.firstName} ${apt.doctor?.lastName}`,
+        specialization: apt.doctor?.specialization,
+        consultationDuration: apt.doctor?.consultationDuration,
+      },
+      date: apt.date,
+      status: apt.status,
+      reason: apt.reason,
+      department: apt.department,
+      scheduledTime: new Date(apt.estimatedStartTime).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
+    };
+
+    // Add queue information if available
+    if (queuePatient) {
+      return {
+        ...baseAppointment,
+        queueInfo: {
+          tokenNumber: queuePatient.tokenNumber,
+          status: queuePatient.status,
+          isCurrentPatient: queue.currentToken === queuePatient.tokenNumber,
+          estimatedStartTime:
+            queuePatient.estimatedStartTime?.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            }),
+          actualStartTime: queuePatient.actualStartTime?.toLocaleTimeString(
+            [],
+            {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            }
+          ),
+          actualEndTime: queuePatient.actualEndTime?.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }),
+          duration: queuePatient.actualDuration
+            ? `${queuePatient.actualDuration} mins`
+            : null,
+        },
+      };
+    }
+
+    return baseAppointment;
+  });
+
+  // Group appointments by status
+  const groupedAppointments = {
+    scheduled: processedAppointments.filter(
+      (apt) => apt.status === "scheduled"
+    ),
+    inProgress: processedAppointments.filter(
+      (apt) => apt.status === "in-progress"
+    ),
+    completed: processedAppointments.filter(
+      (apt) => apt.status === "completed"
+    ),
+    cancelled: processedAppointments.filter(
+      (apt) => apt.status === "cancelled"
+    ),
+  };
+
+  // Calculate queue stats
+  const queueStats = queue
+    ? {
+        currentToken: queue.currentToken,
+        totalAppointments: queue.patients.length,
+        waitingCount: queue.patients.filter((p) => p.status === "waiting")
+          .length,
+        inProgressCount: queue.patients.filter(
+          (p) => p.status === "in-progress"
+        ).length,
+        completedCount: queue.patients.filter((p) => p.status === "completed")
+          .length,
+        averageConsultationTime: queue.metrics?.averageConsultationTime || 0,
+      }
+    : null;
+
+  res.status(200).json({
+    success: true,
+    date: requestedDate,
+    queueStats,
+    appointmentCounts: {
+      total: processedAppointments.length,
+      scheduled: groupedAppointments.scheduled.length,
+      inProgress: groupedAppointments.inProgress.length,
+      completed: groupedAppointments.completed.length,
+      cancelled: groupedAppointments.cancelled.length,
+    },
+    appointments: groupedAppointments,
   });
 });
