@@ -26,13 +26,13 @@ const WithAuthRedirect = (WrappedComponent) => {
         ) {
           navigate("/doctor", { replace: true });
         } else if (
-          user.role === "receptionist" &&
-          !currentPath.startsWith("/receptionist")
+          user.role === "reception" &&
+          !currentPath.startsWith("/reception")
         ) {
-          navigate("/receptionist", { replace: true });
+          navigate("/reception", { replace: true });
         }
       }
-    }, [user, navigate, location]); // Fixed dependency array
+    }, [user, navigate, location]); 
 
     return <WrappedComponent {...props} />;
   };

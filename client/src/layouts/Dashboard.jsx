@@ -51,6 +51,11 @@ function SidebarItem({ icon, text, to, collapsed }) {
 
 // Sidebar Component
 function Sidebar({ navItems, sidebarOpen, toggleSidebar, isMobile }) {
+  const handlelogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
+
   return (
     <div
       className={`fixed inset-y-0 left-0 z-30 bg-white border-r border-gray-200 shadow-sm transition-all duration-300
@@ -93,11 +98,10 @@ function Sidebar({ navItems, sidebarOpen, toggleSidebar, isMobile }) {
 
         {/* Bottom Navigation Section */}
         <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-gray-200 bg-white">
-          <ul className="space-y-2">
+          <ul onClick={handlelogout} className="space-y-2">
             <SidebarItem
               icon={<LogOut size={20} />}
               text="Log Out"
-              to="/logout"
               collapsed={!sidebarOpen}
             />
           </ul>
@@ -208,7 +212,7 @@ function Dashboard({ navItems }) {
                 </div>
                 {/* Tooltip on hover */}
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 hidden group-hover:block">
-                  <div className="px-4 py-2 border-b border-gray-100">
+                  <div className="px-4 py-2 ">
                     <p className="text-sm font-medium text-gray-800">
                       {user.name}
                     </p>
@@ -254,28 +258,17 @@ function ReceptionDashboard() {
     {
       icon: <Users size={20} />,
       text: "Register Patient",
-      to: "/reception/register-patient",
+      to: "/reception/add-patient",
     },
     {
       icon: <Clipboard size={20} />,
       text: "Check Beds",
-      to: "/reception/check-beds",
+      to: "/reception/check-bed",
     },
     {
       icon: <Clock size={20} />,
       text: "Manage Queue",
       to: "/reception/manage-queue",
-    },
-    {
-      icon: <Calendar size={20} />,
-      text: "Appointments",
-      to: "/reception/appointments",
-    },
-    { icon: <FileText size={20} />, text: "Reports", to: "/reception/reports" },
-    {
-      icon: <Settings size={20} />,
-      text: "Settings",
-      to: "/reception/settings",
     },
   ];
 

@@ -12,6 +12,7 @@ import Dashboard from "./pages/patient/Dashboard";
 import Protect from "./components/Protect";
 import { useUser } from "./context/userContext";
 import axios from "axios";
+import AddPatient from "./pages/receptionist/AddPatient";
 
 import {
   AppDashboardWithAuth,
@@ -26,6 +27,9 @@ import MedicalHistory from "./pages/patient/MedicalHistory";
 import QueuePage from "./pages/patient/QueuePage";
 import DAppoinmnent from "./pages/doctor/Appoinment";
 import DDashboard from "./pages/doctor/Dashboard";
+import RDashboard from "./pages/receptionist/Dashboard";
+import CheckBed from "./pages/receptionist/CheckBed";
+import QueueManage from "./pages/receptionist/QueueManage";
 const App = () => {
   const { loginUser, logoutUser } = useUser();
   const [loading, setLoading] = useState(true);
@@ -109,14 +113,18 @@ const App = () => {
             <Route path="appointments" element={<DAppoinmnent />} />
           </Route>
           <Route
-            path="/receptionist"
+            path="/reception"
             element={
               <Protect>
                 <ReceptionDashboardWithAuth />
               </Protect>
             }
           >
-            <Route index element={<Dashboard />} />
+            <Route index element={<RDashboard />} />
+            <Route path="add-patient" element={<AddPatient />} />
+            <Route path="check-bed" element={<CheckBed />} />
+            <Route path="manage-queue" element={<QueueManage />} />
+
             {/* Uncomment and update the settings route if needed */}
             {/* <Route path="settings" element={<Settings />} /> */}
           </Route>

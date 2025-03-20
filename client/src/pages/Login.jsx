@@ -52,7 +52,7 @@ function Login() {
       }
 
       toast.success("User logged in successfully");
-      navigate("/dashboard");
+      navigate(`/${response.data.user.role}`);
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
     } finally {
@@ -94,9 +94,6 @@ function Login() {
                     <span className="text-blue-600 text-start font-semibold text-sm">
                       Password
                     </span>
-                    <Link className="text-blue-600 text-start hover:underline sm:text-sm text-xs">
-                      Forgot password
-                    </Link>
                   </div>
                   <input
                     type="password"
