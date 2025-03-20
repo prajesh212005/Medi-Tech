@@ -7,6 +7,7 @@ import morgan from "morgan";
 import userRoutes from "./routes/user.js";
 import patientRoutes from "./routes/patient.js";
 import doctorRoutes from "./routes/doctor.js";
+import appoinmentRoutes from "./routes/appoinment.js";
 import { errorHandler } from "./utils/ErrorHandler.js";
 dotenv.config();
 
@@ -36,6 +37,7 @@ connectDb();
 app.use("/api/user", userRoutes);
 app.use("/api/patient", patientRoutes);
 app.use("/api/doctor", doctorRoutes);
+app.use("/api/appointment", appoinmentRoutes);
 
 app.listen(PORT, () => {
   console.log("Server is running on port 5000");

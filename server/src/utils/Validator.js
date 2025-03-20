@@ -129,9 +129,19 @@ export const updateDoctorProfile = [
 
   body("specialization")
     .optional()
-    .trim()
-    .isLength({ min: 2, max: 100 })
-    .withMessage("Specialization must be between 2 and 100 characters"),
+    .isIn([
+      "cardiology",
+      "dermatology",
+      "neurology",
+      "orthopedics",
+      "pediatrics",
+      "psychiatry",
+      "gynecology",
+      "ophthalmology",
+      "dentistry",
+      "general",
+    ])
+    .withMessage("Invalid specialization"),
 
   body("qualification")
     .optional()
@@ -149,29 +159,21 @@ export const updateDoctorProfile = [
     .trim()
     .matches(/^\d{10}$/)
     .withMessage("Contact number must be exactly 10 digits"),
+];
 
-  body("availability.*.day")
-    .optional()
-    .isIn([
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ])
-    .withMessage("Invalid day"),
-
-  body("availability.*.startTime")
-    .optional()
-    .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
-    .withMessage("Invalid start time format"),
-
-  body("availability.*.endTime")
-    .optional()
-    .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
-    .withMessage("Invalid end time format"),
+export const createApponiment = [
+  body("doctorId").notEmpty().withMessage("Doctor ID is required"),
+  body("date")
+    .notEmpty()
+    .withMessage("Date is required")
+    .isISO8601()
+    .withMessage("Invalid date format"),
+  body("reason")
+    .notEmpty()
+    .withMessage("Reason is required")
+    .isLength({ min: 10 })
+    .withMessage("Reason must be at least 10 characters"),
+  body("department").notEmpty().withMessage("Department is required"),
 ];
 
 export const processValidationResult = (req, res, next) => {

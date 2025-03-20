@@ -21,4 +21,6 @@ router.put(
   doctor.updateProfile
 );
 
+router.get("/get-all-doctors/:department", AuthCheck, doctor.getAllDoctors);
+
 export default router;

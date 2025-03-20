@@ -11,21 +11,18 @@ const patientSchema = new mongoose.Schema({
   gender: { type: String, enum: ["male", "female", "other"], default: "male" },
   contactNumber: { type: String, default: "" },
   address: { type: String, default: "" },
-  medicalHistory: [
-    {
-      condition: { type: String },
-      diagnosis: { type: String },
-      treatment: { type: String },
-      diagnosedDate: { type: Date },
-      notes: { type: String },
-    },
-  ],
   emergencyContact: {
     name: { type: String, default: "" },
     relationship: { type: String, default: "" },
     contactNumber: { type: String, default: "" },
   },
   registrationDate: { type: Date, default: Date.now },
+  consultationHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment",
+    },
+  ],
 });
 
 const Patient =

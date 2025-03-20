@@ -22,6 +22,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    doctor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctor",
+      default: null,
+    },
+    patient: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Patient",
+      default: null,
+    },
   },
   { timestamps: true }
 );
