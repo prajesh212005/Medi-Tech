@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   Users,
@@ -51,9 +51,12 @@ function SidebarItem({ icon, text, to, collapsed }) {
 
 // Sidebar Component
 function Sidebar({ navItems, sidebarOpen, toggleSidebar, isMobile }) {
+  const { user, logoutUser } = useUser();
+  const navigate = useNavigate();
   const handlelogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/";
+    logoutUser();
+    navigate("/login");
   };
 
   return (
